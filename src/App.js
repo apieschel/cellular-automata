@@ -45,8 +45,24 @@ class App extends Component {
 
 const Grid = function(props) {
   return (
-    props.rows.map((row,i)=><div key={i} className='row'>{row.map((cell)=><div key={cell.key} className='cell'></div>)}</div>)
+    props.rows.map((row,i)=><div key={i} className='row'>{row.map((cell)=><Cell key={cell.key} />)}</div>)
   )
+}
+
+class Cell extends Component {
+  constructor() {
+    super();
+    
+    this.state = {
+      isBurning: false
+    }
+  }
+  
+  render() {
+    return(
+      <div className='cell'></div>
+    )
+  }
 }
 
 export default App;
