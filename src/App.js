@@ -49,20 +49,10 @@ const Grid = function(props) {
   )
 }
 
-class Cell extends Component {
-  constructor() {
-    super();
-    
-    this.state = {
-      isBurning: false
-    }
-  }
-  
-  render() {
+const Cell = function(props) { 
     return(
       <div className='cell'></div>
     )
-  }
 }
 
 export default App;
