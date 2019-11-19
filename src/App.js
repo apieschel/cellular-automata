@@ -36,15 +36,17 @@ class App extends Component {
     return (
       <div className='container'>
         <div className='grid'>
-            <Cells cells={this.state.cells} />
+            <Grid rows={this.state.cells} />
         </div>
       </div>
     );
   }
 }
 
-const Cells = function(props) {
-  return (props.cells.map((row,i)=><div key={i} className='row'>{row.map((cell)=><div key={cell.key} className='cell'></div>)}</div>) )
+const Grid = function(props) {
+  return (
+    props.rows.map((row,i)=><div key={i} className='row'>{row.map((cell)=><div key={cell.key} className='cell'></div>)}</div>)
+  )
 }
 
 export default App;
