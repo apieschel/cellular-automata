@@ -1,7 +1,7 @@
 dependencies:
   create-react-app: 3.2.0
-  react: 16.10.2
-  react-dom: 16.10.2
+  react: 16.12.0
+  react-dom: 16.12.0
 devDependencies:
   react-scripts: 0.9.5
 packages:
@@ -5192,7 +5192,7 @@ packages:
     dependencies:
       loose-envify: 1.4.0
       object-assign: 4.1.1
-      react-is: 16.10.2
+      react-is: 16.12.0
     dev: false
     resolution:
       integrity: sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -5319,21 +5319,21 @@ packages:
       node: '>=4'
     resolution:
       integrity: sha1-UNC5YtOpS2wujyAR7WRo5BJLxBA=
-  /react-dom/16.10.2:
+  /react-dom/16.12.0:
     dependencies:
       loose-envify: 1.4.0
       object-assign: 4.1.1
       prop-types: 15.7.2
-      scheduler: 0.16.2
+      scheduler: 0.18.0
     dev: false
     peerDependencies:
       react: ^16.0.0
     resolution:
-      integrity: sha512-kWGDcH3ItJK4+6Pl9DZB16BXYAZyrYQItU4OMy0jAkv5aNqc+mAKb4TpFtAteI6TJZu+9ZlNhaeNQSVQDHJzkw==
-  /react-is/16.10.2:
+      integrity: sha512-LMxFfAGrcS3kETtQaCkTKjMiifahaMySFDn71fZUNpPHZQEzmk/GiAeIT8JSOrHB23fnuCOMruL2a8NYlw+8Gw==
+  /react-is/16.12.0:
     dev: false
     resolution:
-      integrity: sha512-INBT1QEgtcCCgvccr5/86CfD71fw9EPmDxgiJX4I2Ddr6ZsV6iFXsuby+qWJPtmNuMY0zByTsG4468P7nHuNWA==
+      integrity: sha512-rPCkf/mWBtKc97aLL9/txD8DZdemK0vkA3JMLShjlJB3Pj3s+lpf1KaBzMfQrAmhMQB0n1cU/SUGgKKBCe837Q==
   /react-scripts/0.9.5:
     dependencies:
       autoprefixer: 6.7.2
@@ -5382,7 +5382,7 @@ packages:
       fsevents: 1.0.17
     resolution:
       integrity: sha1-6fBchCficTFmKpudepeG0f8Wuz8=
-  /react/16.10.2:
+  /react/16.12.0:
     dependencies:
       loose-envify: 1.4.0
       object-assign: 4.1.1
@@ -5391,7 +5391,7 @@ packages:
     engines:
       node: '>=0.10.0'
     resolution:
-      integrity: sha512-MFVIq0DpIhrHFyqLU0S3+4dIcBhhOvBE8bJ/5kHPVOVaGdo0KuiQzpcjCPsf585WvhypqtrMILyoE2th6dT+Lw==
+      integrity: sha512-fglqy3k5E+81pA8s+7K0/T3DBCF0ZDOher1elBFzF7O6arXJgzyu/FW+COxFvAWXJoJN9KIZbT2LXlukwphYTA==
   /read-pkg-up/1.0.1:
     dependencies:
       find-up: 1.1.2
@@ -5801,13 +5801,13 @@ packages:
     dev: true
     resolution:
       integrity: sha512-NqVDv9TpANUjFm0N8uM5GxL36UgKi9/atZw+x7YFnQ8ckwFGKrl4xX4yWtrey3UJm5nP1kUbnYgLopqWNSRhWw==
-  /scheduler/0.16.2:
+  /scheduler/0.18.0:
     dependencies:
       loose-envify: 1.4.0
       object-assign: 4.1.1
     dev: false
     resolution:
-      integrity: sha512-BqYVWqwz6s1wZMhjFvLfVR5WXP7ZY32M/wYPo04CcuPM7XZEbV2TBNW7Z0UkguPTl0dWMA59VbNXxK6q+pHItg==
+      integrity: sha512-agTSHR1Nbfi6ulI0kYNK0203joW2Y5W4po4l+v03tOoiJKpTBbxpNhWDvqc/4IcOw+KLmSiQLTasZ4cab2/UWQ==
   /semver/5.7.1:
     hasBin: true
     resolution:
@@ -6955,6 +6955,6 @@ shrinkwrapMinorVersion: 9
 shrinkwrapVersion: 3
 specifiers:
   create-react-app: ^3.2.0
-  react: ^16.9.0
-  react-dom: ^16.10.2
+  react: ^16.11.0
+  react-dom: ^16.12.0
   react-scripts: 0.9.5
