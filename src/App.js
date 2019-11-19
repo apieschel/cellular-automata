@@ -45,7 +45,7 @@ class App extends Component {
 
 const Grid = function(props) {
   return (
-    props.rows.map((row,i)=><div key={i} className='row'>{row.map((cell)=><Cell key={cell.key} />)}</div>)
+    props.rows.map((row, i) => <div key={i} className='row'>{ row.map( (cell) => <Cell key={cell.key}/> ) }</div>)
   )
 }
 
