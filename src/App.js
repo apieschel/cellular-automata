@@ -25,6 +25,7 @@ class App extends Component {
     }
     
     this.setState({ cells: grid });
+    console.log(grid);
   }
 
   componentDidMount() {
