@@ -20,7 +20,7 @@ class App extends Component {
     for(let i = 0; i < this.state.numberOfRows; i++) {
       grid.push([]);        
       for(let j = 0; j < this.state.cellsPerRow; j++) {
-        grid[i].push({ key: i.toString() + '-' + j.toString() });
+        grid[i].push({ key: i.toString() + '-' + j.toString(), state: 0 });
       }
     }
     
@@ -45,13 +45,18 @@ class App extends Component {
 
 const Grid = function(props) {
   return (
-    props.rows.map((row, i) => <div key={i} className='row'>{ row.map( (cell) => <Cell key={cell.key}/> ) }</div>)
+    props.rows.map((row, i) => <div key={i} className='row'>{ row.map( (cell) => <Cell key={cell.key} state={cell.state} /> ) }</div>)
   )
 }
 
-const Cell = function(props) { 
+const Cell = function(props) {
+    let cssClass = 'cell';
+  
+    if(props.state) {
+      cssClass = 'cell burning';
+    }
     return(
-      <div className='cell'></div>
+      <div className={cssClass} onClick={cell => console.log(cell.target)}></div>
     )
 }
 
