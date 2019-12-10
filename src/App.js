@@ -12,6 +12,7 @@ class App extends Component {
     }
     
     this.buildGrid = this.buildGrid.bind(this);
+    this.updateGrid = this.updateGrid.bind(this);
     this.handleClick = this.handleClick.bind(this);
   }
   
@@ -27,6 +28,10 @@ class App extends Component {
     
     this.setState({ cells: grid });
     console.log(grid);
+  }
+  
+  updateGrid() {
+    
   }
   
   handleClick(id) {
