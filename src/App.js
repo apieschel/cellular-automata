@@ -12,6 +12,7 @@ class App extends Component {
     }
     
     this.buildGrid = this.buildGrid.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
   
   buildGrid() {
@@ -29,7 +30,23 @@ class App extends Component {
   }
   
   handleClick(id) {
-    console.log(id)
+    console.log(id);
+    this.setState({
+      cells: this.state.cells.map((row) => {
+         if(row) {
+           row.map((cell) => {
+             console.log(cell);
+             if(cell.key === id) {
+               return Object.assign({}, cell, {
+                 state: 1,
+               });
+             } else {
+               return cell;
+             }
+           })
+         }
+      }),
+    });
   }
 
   componentDidMount() {
@@ -60,7 +77,7 @@ const Cell = function(props) {
       cssClass = 'cell burning';
     }
     return(
-      <div className={cssClass} onClick={ props.handleClick(props.id) }></div>
+      <div className={cssClass} onClick={ () => props.handleClick(props.id) }></div>
     )
 }
 
