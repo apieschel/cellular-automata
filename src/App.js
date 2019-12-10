@@ -27,6 +27,10 @@ class App extends Component {
     this.setState({ cells: grid });
     console.log(grid);
   }
+  
+  handleClick(id) {
+    console.log(id)
+  }
 
   componentDidMount() {
     this.buildGrid();
@@ -36,7 +40,7 @@ class App extends Component {
     return (
       <div className='container'>
         <div className='grid'>
-            <Grid rows={this.state.cells} />
+            <Grid rows={this.state.cells} handleClick={this.handleClick} />
         </div>
       </div>
     );
@@ -45,7 +49,7 @@ class App extends Component {
 
 const Grid = function(props) {
   return (
-    props.rows.map((row, i) => <div key={i} className='row'>{ row.map( (cell) => <Cell key={cell.key} state={cell.state} /> ) }</div>)
+    props.rows.map((row, i) => <div key={i} className='row'>{ row.map( (cell) => <Cell key={cell.key} state={cell.state} handleClick={props.handleClick} id={cell.key} /> ) }</div>)
   )
 }
 
@@ -56,7 +60,7 @@ const Cell = function(props) {
       cssClass = 'cell burning';
     }
     return(
-      <div className={cssClass} onClick={cell => console.log(cell.target)}></div>
+      <div className={cssClass} onClick={ props.handleClick(props.id) }></div>
     )
 }
 
