@@ -30,21 +30,17 @@ class App extends Component {
   }
   
   handleClick(id) {
-    console.log(id);
     this.setState({
       cells: this.state.cells.map((row) => {
-         if(row) {
-           row.map((cell) => {
-             console.log(cell);
+           return row.map((cell) => {
              if(cell.key === id) {
                return Object.assign({}, cell, {
-                 state: 1,
+                 state: !cell.state,
                });
              } else {
                return cell;
              }
            })
-         }
       }),
     });
   }
