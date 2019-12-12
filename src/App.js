@@ -8,24 +8,26 @@ class App extends Component {
     this.state = {
       cells: [],
       cellsPerRow: 10,
-      intervalId: null,
+      intervalId: 0,
       numberOfRows: 10,
     }
     
     this.buildGrid = this.buildGrid.bind(this);
     this.updateGrid = this.updateGrid.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.updateGrid = this.updateGrid.bind(this);
   }
   
   componentDidMount() {
-    const intervalId = setInterval(this.buildGrid, 120);
+    const intervalId = setInterval(this.updateGrid, 120);
     
     // store intervalId in the state so it can be accessed later:
     this.setState({ intervalId: intervalId });
+    
+    this.buildGrid();
   }
   
   buildGrid() {
-    console.log('building grid');
     let grid = [];
     
     for(let i = 0; i < this.state.numberOfRows; i++) {
@@ -40,7 +42,7 @@ class App extends Component {
   }
   
   updateGrid() {
-    
+    console.log('updating grid');
   }
   
   handleClick(id) {
@@ -58,16 +60,13 @@ class App extends Component {
       }),
     });
   }
-
-  componentDidMount() {
-    this.buildGrid();
-  }
   
   render() {
     return (
       <div className='container'>
         <div className='grid'>
             <Grid rows={this.state.cells} handleClick={this.handleClick} />
+            {this.state.count}
         </div>
       </div>
     );
