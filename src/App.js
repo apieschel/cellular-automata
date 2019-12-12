@@ -8,6 +8,7 @@ class App extends Component {
     this.state = {
       cells: [],
       cellsPerRow: 10,
+      intervalId: null,
       numberOfRows: 10,
     }
     
@@ -16,7 +17,15 @@ class App extends Component {
     this.handleClick = this.handleClick.bind(this);
   }
   
+  componentDidMount() {
+    const intervalId = setInterval(this.buildGrid, 120);
+    
+    // store intervalId in the state so it can be accessed later:
+    this.setState({ intervalId: intervalId });
+  }
+  
   buildGrid() {
+    console.log('building grid');
     let grid = [];
     
     for(let i = 0; i < this.state.numberOfRows; i++) {
