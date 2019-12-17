@@ -3,6 +3,10 @@ import './App.css';
 
 const KICK = new Audio('https://cdn.glitch.com/17f54245-b142-4cf8-a81b-65e0b36f6b8f%2FMT52_bassdrum.wav?1551990664247');
 const SNARE = new Audio('https://cdn.glitch.com/17f54245-b142-4cf8-a81b-65e0b36f6b8f%2FMT52_snare.wav?1551990663373');
+const HIGHHAT = new Audio('https://cdn.glitch.com/17f54245-b142-4cf8-a81b-65e0b36f6b8f%2FMT52_hihat.wav?1551990662668');
+const SNARESIDE = new Audio('https://cdn.glitch.com/17f54245-b142-4cf8-a81b-65e0b36f6b8f%2FMT52_snare_sidestick.wav?1551990663860');
+const CONGA = new Audio('https://cdn.glitch.com/17f54245-b142-4cf8-a81b-65e0b36f6b8f%2FMT52_conga.wav?1551990662263');
+const CONGAHIGH = new Audio('https://cdn.glitch.com/cc093c8e-9559-4f24-a71e-df60d5b1502c%2FMT52_conga_high.wav?1550690555911');
 const AC = new AudioContext();
 const NODE = AC.createGain();
 
@@ -37,10 +41,19 @@ class App extends Component {
   }
   
   playSound() {
-    let instrument = KICK;
+    let instrument = SNARESIDE;
+    let count = this.state.count;
     
-    if( this.state.count === 5 || this.state.count === 13 ) {
+    if( count === 1 || count === 9 ) {
+      instrument = KICK;
+    }
+    
+    if( count === 5 || count === 13 ) {
       instrument = SNARE;  
+    }
+    
+    if( count === 8 ) {
+      instrument = HIGHHAT;
     }
     
     let clone = instrument.cloneNode(true);
@@ -160,7 +173,6 @@ class App extends Component {
       <div className='container'>
         <div className='grid'>
             <Grid rows={this.state.cells} handleClick={this.handleClick} />
-            {this.state.count}
         </div>
       </div>
     );
