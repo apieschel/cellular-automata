@@ -27,3 +27,13 @@ body {
   background: crimson;
   transition: 0.01s ease all;
 }
+
+.charred {
+  background: black;
+  transition: 0.01s ease all;
+}
+
+.gone {
+  background: transparent;
+  transition: 0.01s ease all;
+}

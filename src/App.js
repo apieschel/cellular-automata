@@ -7,9 +7,9 @@ class App extends Component {
     
     this.state = {
       cells: [],
-      cellsPerRow: 30,
+      cellsPerRow: 40,
       intervalId: 0,
-      numberOfRows: 30,
+      numberOfRows: 40,
     }
     
     this.buildGrid = this.buildGrid.bind(this);
@@ -62,20 +62,21 @@ class App extends Component {
           down = cells[i - 1][j] ? cells[i - 1][j].state : 0;
         }
         
-        let self = cells[i][j].state;
+        let self = cells[i][j];
         
-        if( self ) {
-          grid[i].push({ key: i.toString() + '-' + j.toString(), state: 1 });
+        if( self.state ) {
+          grid[i].push( self );
         } else if( left || right || up || down ) {
           let rand = Math.random();
           
           if( rand > 0.5 ) {
-            grid[i].push({ key: i.toString() + '-' + j.toString(), state: 1 });
+            self.state = 1;
+            grid[i].push( self );
           } else {
-            grid[i].push({ key: i.toString() + '-' + j.toString(), state: 0 });
+            grid[i].push( self );
           }
         } else {
-          grid[i].push({ key: i.toString() + '-' + j.toString(), state: 0 });
+          grid[i].push( self );
         }
       }
     }
