@@ -19,7 +19,7 @@ class App extends Component {
   }
   
   componentDidMount() {
-    const intervalId = setInterval(this.updateGrid, 120);
+    const intervalId = setInterval(this.updateGrid, 1000);
     
     // store intervalId in the state so it can be accessed later:
     this.setState({ intervalId: intervalId });
@@ -42,7 +42,27 @@ class App extends Component {
   }
   
   updateGrid() {
-    console.log('updating grid');
+    let grid = [];
+    let cells = this.state.cells;
+    
+    
+    for(let i = 0; i < this.state.numberOfRows; i++) {
+      grid.push([]);        
+      for(let j = 0; j < this.state.cellsPerRow; j++) {
+        let left = cells[i][j - 1];
+        let right = cells[i][j + 1];
+        let up = cells[i][j + 1];
+        let down = cells[i][j + 1];
+        
+        if( left.state || right.state || up.state || down.state ) {
+          grid[i].push({ key: i.toString() + '-' + j.toString(), state: 0 });     
+        } else {
+          grid[i].push({ key: i.toString() + '-' + j.toString(), state: 0 });
+        }
+      }
+    }
+    
+    this.setState({ cells: grid });
   }
   
   handleClick(id) {
