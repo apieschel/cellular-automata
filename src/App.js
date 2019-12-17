@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 
 const KICK = new Audio('https://cdn.glitch.com/17f54245-b142-4cf8-a81b-65e0b36f6b8f%2FMT52_bassdrum.wav?1551990664247');
+const SNARE = new Audio('https://cdn.glitch.com/17f54245-b142-4cf8-a81b-65e0b36f6b8f%2FMT52_snare.wav?1551990663373');
 const AC = new AudioContext();
 const NODE = AC.createGain();
 
@@ -10,7 +11,9 @@ class App extends Component {
     super();
     
     this.state = {
-      audio: false,
+      done: false,
+      initialized: false,
+      count: 1,
       cells: [],
       cellsPerRow: 40,
       intervalId: 0,
@@ -21,6 +24,7 @@ class App extends Component {
     this.updateGrid = this.updateGrid.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.updateGrid = this.updateGrid.bind(this);
+    this.playSound = this.playSound.bind(this);
   }
   
   componentDidMount() {
@@ -33,11 +37,17 @@ class App extends Component {
   }
   
   playSound() {
-    let clone = KICK.cloneNode(true);
+    let instrument = KICK;
+    
+    if( this.state.count === 5 || this.state.count === 13 ) {
+      instrument = SNARE;  
+    }
+    
+    let clone = instrument.cloneNode(true);
     let buffer;
       
     const request = new XMLHttpRequest();
-    request.open('GET', KICK.src, true);
+    request.open('GET', instrument.src, true);
     request.responseType = 'arraybuffer';
     request.onload = function() {
       AC.decodeAudioData(request.response, function(buffer) {
@@ -73,46 +83,58 @@ class App extends Component {
   updateGrid() {
     let grid = [];
     let cells = this.state.cells;
+    let count = this.state.count;
     
-    if(this.state.audio) {
-      KICK.play();
-    } 
-    
-    for(let i = 0; i < this.state.numberOfRows; i++) {
-      grid.push([]);        
-      for(let j = 0; j < this.state.cellsPerRow; j++) {
-        let left = cells[i][j - 1] ? cells[i][j - 1].state : 0;
-        let right = cells[i][j + 1] ? cells[i][j + 1].state : 0;
-        let up;
-        let down;
-        
-        if( cells[i + 1] ) {
-          up = cells[i + 1][j] ? cells[i + 1][j].state : 0; 
-        }
-        
-        if( cells[i - 1] ) {
-          down = cells[i - 1][j] ? cells[i - 1][j].state : 0;
-        }
-        
-        let self = cells[i][j];
-        
-        if( self.state ) {
-          grid[i].push( self );
-        } else if( left || right || up || down ) {
-          let rand = Math.random();
-          
-          if( rand > 0.5 ) {
-            grid[i].push({ key: i.toString() + '-' + j.toString(), state: 1 });
-          } else {
-            grid[i].push( self );
+    if( this.state.initialized && !this.state.done ) {
+      this.playSound(); 
+      
+      let done = true; 
+      
+      for(let i = 0; i < this.state.numberOfRows; i++) {
+        grid.push([]);        
+        for(let j = 0; j < this.state.cellsPerRow; j++) {
+          let left = cells[i][j - 1] ? cells[i][j - 1].state : 0;
+          let right = cells[i][j + 1] ? cells[i][j + 1].state : 0;
+          let up;
+          let down;
+
+          if( cells[i + 1] ) {
+            up = cells[i + 1][j] ? cells[i + 1][j].state : 0; 
           }
-        } else {
-          grid[i].push({ key: i.toString() + '-' + j.toString(), state: 0 });
+
+          if( cells[i - 1] ) {
+            down = cells[i - 1][j] ? cells[i - 1][j].state : 0;
+          }
+
+          let self = cells[i][j];
+
+          if( self.state ) {
+            grid[i].push( self );
+          } else if( left || right || up || down ) {
+            let rand = Math.random();
+
+            if( rand > 0.5 ) {
+              grid[i].push({ key: i.toString() + '-' + j.toString(), state: 1 });
+            } else {
+              grid[i].push( self );
+            }
+            
+            done = false;
+          } else {
+            grid[i].push({ key: i.toString() + '-' + j.toString(), state: 0 });
+            done = false;
+          }
         }
       }
+      
+      if( count === 16 ) {
+        count = 1;
+      } else {
+        count++;  
+      }
+      
+      this.setState({ cells: grid, done: done, count: count });
     }
-    
-    this.setState({ cells: grid });
   }
   
   handleClick(id) {
@@ -128,7 +150,7 @@ class App extends Component {
              }
            })
         }),
-        audio: true,
+        initialized: true,
       },
     );
   }
