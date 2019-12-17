@@ -70,13 +70,12 @@ class App extends Component {
           let rand = Math.random();
           
           if( rand > 0.5 ) {
-            self.state = 1;
-            grid[i].push( self );
+            grid[i].push({ key: i.toString() + '-' + j.toString(), state: 1 });
           } else {
             grid[i].push( self );
           }
         } else {
-          grid[i].push( self );
+          grid[i].push({ key: i.toString() + '-' + j.toString(), state: 0 });
         }
       }
     }
