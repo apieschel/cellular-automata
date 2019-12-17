@@ -19,7 +19,7 @@ class App extends Component {
   }
   
   componentDidMount() {
-    const intervalId = setInterval(this.updateGrid, 120);
+    const intervalId = setInterval(this.updateGrid, 480);
     
     // store intervalId in the state so it can be accessed later:
     this.setState({ intervalId: intervalId });
