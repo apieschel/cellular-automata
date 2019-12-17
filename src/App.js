@@ -7,9 +7,9 @@ class App extends Component {
     
     this.state = {
       cells: [],
-      cellsPerRow: 40,
+      cellsPerRow: 30,
       intervalId: 0,
-      numberOfRows: 40,
+      numberOfRows: 30,
     }
     
     this.buildGrid = this.buildGrid.bind(this);
@@ -19,7 +19,7 @@ class App extends Component {
   }
   
   componentDidMount() {
-    const intervalId = setInterval(this.updateGrid, 400);
+    const intervalId = setInterval(this.updateGrid, 120);
     
     // store intervalId in the state so it can be accessed later:
     this.setState({ intervalId: intervalId });
