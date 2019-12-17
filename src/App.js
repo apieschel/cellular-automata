@@ -7,9 +7,9 @@ class App extends Component {
     
     this.state = {
       cells: [],
-      cellsPerRow: 10,
+      cellsPerRow: 40,
       intervalId: 0,
-      numberOfRows: 10,
+      numberOfRows: 40,
     }
     
     this.buildGrid = this.buildGrid.bind(this);
@@ -19,7 +19,7 @@ class App extends Component {
   }
   
   componentDidMount() {
-    const intervalId = setInterval(this.updateGrid, 1000);
+    const intervalId = setInterval(this.updateGrid, 400);
     
     // store intervalId in the state so it can be accessed later:
     this.setState({ intervalId: intervalId });
@@ -49,13 +49,31 @@ class App extends Component {
     for(let i = 0; i < this.state.numberOfRows; i++) {
       grid.push([]);        
       for(let j = 0; j < this.state.cellsPerRow; j++) {
-        let left = cells[i][j - 1];
-        let right = cells[i][j + 1];
-        let up = cells[i][j + 1];
-        let down = cells[i][j + 1];
+        let left = cells[i][j - 1] ? cells[i][j - 1].state : 0;
+        let right = cells[i][j + 1] ? cells[i][j + 1].state : 0;
+        let up;
+        let down;
         
-        if( left.state || right.state || up.state || down.state ) {
-          grid[i].push({ key: i.toString() + '-' + j.toString(), state: 0 });     
+        if( cells[i + 1] ) {
+          up = cells[i + 1][j] ? cells[i + 1][j].state : 0; 
+        }
+        
+        if( cells[i - 1] ) {
+          down = cells[i - 1][j] ? cells[i - 1][j].state : 0;
+        }
+        
+        let self = cells[i][j].state;
+        
+        if( self ) {
+          grid[i].push({ key: i.toString() + '-' + j.toString(), state: 1 });
+        } else if( left || right || up || down ) {
+          let rand = Math.random();
+          
+          if( rand > 0.5 ) {
+            grid[i].push({ key: i.toString() + '-' + j.toString(), state: 1 });
+          } else {
+            grid[i].push({ key: i.toString() + '-' + j.toString(), state: 0 });
+          }
         } else {
           grid[i].push({ key: i.toString() + '-' + j.toString(), state: 0 });
         }
