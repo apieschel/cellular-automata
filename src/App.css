@@ -34,3 +34,10 @@ body {
 .gone {
   background: transparent;
 }
+
+@media screen and (max-width: 600px) {
+  .cell {
+    height: 12px; 
+    width: 12px;
+  }
+}
