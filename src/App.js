@@ -4,6 +4,7 @@ import './App.css';
 const KICK = new Audio('https://cdn.glitch.com/17f54245-b142-4cf8-a81b-65e0b36f6b8f%2FMT52_bassdrum.wav?1551990664247');
 const SNARE = new Audio('https://cdn.glitch.com/17f54245-b142-4cf8-a81b-65e0b36f6b8f%2FMT52_snare.wav?1551990663373');
 const HIGHHAT = new Audio('https://cdn.glitch.com/17f54245-b142-4cf8-a81b-65e0b36f6b8f%2FMT52_hihat.wav?1551990662668');
+const OPENHAT = new Audio('https://cdn.glitch.com/17f54245-b142-4cf8-a81b-65e0b36f6b8f%2FMT52_openhat.wav?1551990662961');
 const SNARESIDE = new Audio('https://cdn.glitch.com/17f54245-b142-4cf8-a81b-65e0b36f6b8f%2FMT52_snare_sidestick.wav?1551990663860');
 const CONGA = new Audio('https://cdn.glitch.com/17f54245-b142-4cf8-a81b-65e0b36f6b8f%2FMT52_conga.wav?1551990662263');
 const CONGAHIGH = new Audio('https://cdn.glitch.com/cc093c8e-9559-4f24-a71e-df60d5b1502c%2FMT52_conga_high.wav?1550690555911');
@@ -19,9 +20,9 @@ class App extends Component {
       initialized: false,
       count: 1,
       cells: [],
-      cellsPerRow: 40,
+      cellsPerRow: 25,
       intervalId: 0,
-      numberOfRows: 40,
+      numberOfRows: 25,
     }
     
     this.buildGrid = this.buildGrid.bind(this);
@@ -42,18 +43,22 @@ class App extends Component {
   
   playSound() {
     let instrument = SNARESIDE;
-    let defaultInstrument = true;
+    let quiet = true;
     
     console.log(instrument);
     let count = this.state.count;
     
     if( count === 1 || count === 9 || count === 15 || count === 16 ) {
-      defaultInstrument = false;
+      quiet = false;
       instrument = KICK;
     }
     
+    if( count === 12 ) {
+      instrument = HIGHHAT;
+    }
+    
     if( count === 5 || count === 13 ) {
-      defaultInstrument = false;
+      quiet = false;
       instrument = SNARE;  
     }
     
@@ -66,12 +71,10 @@ class App extends Component {
     }
     
     if( count === 8 ) {
-      defaultInstrument = false;
-      instrument = HIGHHAT;
+      instrument = OPENHAT;
     }
     
     let clone = instrument.cloneNode(true);
-    let buffer;
       
     const request = new XMLHttpRequest();
     request.open('GET', instrument.src, true);
@@ -85,8 +88,8 @@ class App extends Component {
         gain.connect(NODE);
         gain.connect(AC.destination);
         
-        if(defaultInstrument) {
-          gain.gain.setValueAtTime(0.25, AC.currentTime);  
+        if( quiet ) {
+          gain.gain.setValueAtTime(0.2, AC.currentTime);  
         }
         
         playSound.start(0);
