@@ -42,17 +42,31 @@ class App extends Component {
   
   playSound() {
     let instrument = SNARESIDE;
+    let defaultInstrument = true;
+    
+    console.log(instrument);
     let count = this.state.count;
     
-    if( count === 1 || count === 9 ) {
+    if( count === 1 || count === 9 || count === 15 || count === 16 ) {
+      defaultInstrument = false;
       instrument = KICK;
     }
     
     if( count === 5 || count === 13 ) {
+      defaultInstrument = false;
       instrument = SNARE;  
     }
     
+    if( count === 10 ) {
+      instrument = CONGA;
+    }
+    
+    if( count === 14) {
+       instrument = CONGAHIGH;
+    }
+    
     if( count === 8 ) {
+      defaultInstrument = false;
       instrument = HIGHHAT;
     }
     
@@ -70,6 +84,11 @@ class App extends Component {
         playSound.connect(gain);
         gain.connect(NODE);
         gain.connect(AC.destination);
+        
+        if(defaultInstrument) {
+          gain.gain.setValueAtTime(0.25, AC.currentTime);  
+        }
+        
         playSound.start(0);
 
         clone.remove();
