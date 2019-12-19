@@ -107,10 +107,8 @@ class App extends Component {
     let cells = this.state.cells;
     let count = this.state.count;
     
-    if( this.state.initialized && !this.state.done ) {
+    if( this.state.initialized ) {
       this.playSound(); 
-      
-      let done = true; 
       
       for(let i = 0; i < this.state.numberOfRows; i++) {
         grid.push([]);        
@@ -138,7 +136,6 @@ class App extends Component {
               if( rand > 0.5 ) {
                 newState++;
               }
-              done = false;
             }
             
             grid[i].push({ key: i.toString() + '-' + j.toString(), state: newState });
@@ -152,10 +149,8 @@ class App extends Component {
               grid[i].push( self );
             }
             
-            done = false;
           } else {
             grid[i].push({ key: i.toString() + '-' + j.toString(), state: 0 });
-            done = false;
           }
         }
       }
@@ -166,7 +161,7 @@ class App extends Component {
         count++;  
       }
       
-      this.setState({ cells: grid, done: done, count: count });
+      this.setState({ cells: grid, count: count });
     }
   }
   
