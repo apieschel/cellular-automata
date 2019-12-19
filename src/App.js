@@ -80,7 +80,7 @@ class App extends Component {
     for(let i = 0; i < this.state.numberOfRows; i++) {
       grid.push([]);        
       for(let j = 0; j < this.state.cellsPerRow; j++) {
-        grid[i].push({ key: i.toString() + '-' + j.toString(), state: 0 });
+        grid[i].push({ key: i.toString() + '-' + j.toString(), state: parseInt(0) });
       }
     }
     
@@ -115,14 +115,16 @@ class App extends Component {
           }
 
           let self = cells[i][j];
+          console.log(self.state);
 
           if( self.state ) {
-            grid[i].push( self );
+            grid[i].push({ key: i.toString() + '-' + j.toString(), state: 1 });
+            
           } else if( left || right || up || down ) {
             let rand = Math.random();
 
             if( rand > 0.5 ) {
-              grid[i].push({ key: i.toString() + '-' + j.toString(), state: this.state++ });
+              grid[i].push({ key: i.toString() + '-' + j.toString(), state: 0 });
             } else {
               grid[i].push( self );
             }
@@ -151,7 +153,7 @@ class App extends Component {
            return row.map((cell) => {
              if(cell.key === id) {
                return Object.assign({}, cell, {
-                 state: !cell.state,
+                 state: 1,
                });
              } else {
                return cell;
@@ -300,7 +302,6 @@ const Cell = function(props) {
     if(props.state) {
       cssClass = 'cell burning';
     }
-  
     return(
       <div className={cssClass} onClick={ () => props.handleClick(props.id) }></div>
     )
