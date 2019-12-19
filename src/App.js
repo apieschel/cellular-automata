@@ -118,20 +118,30 @@ class App extends Component {
           console.log(self.state);
 
           if( self.state ) {
-            grid[i].push({ key: i.toString() + '-' + j.toString(), state: 1 });
+            let newState = self.state;
+            let rand = Math.random();
+
+            if( rand > 0.5 ) {
+              if(self.state < 3) {
+                newState++;
+                done = false;
+              }
+            }
+            
+            grid[i].push({ key: i.toString() + '-' + j.toString(), state: newState });
             
           } else if( left || right || up || down ) {
             let rand = Math.random();
 
             if( rand > 0.5 ) {
-              grid[i].push({ key: i.toString() + '-' + j.toString(), state: 0 });
+              grid[i].push({ key: i.toString() + '-' + j.toString(), state: parseInt(1) });
             } else {
               grid[i].push( self );
             }
             
             done = false;
           } else {
-            grid[i].push({ key: i.toString() + '-' + j.toString(), state: 0 });
+            grid[i].push({ key: i.toString() + '-' + j.toString(), state: parseInt(0) });
             done = false;
           }
         }
@@ -299,9 +309,18 @@ const Grid = function(props) {
 const Cell = function(props) {
     let cssClass = 'cell';
   
-    if(props.state) {
+    if(props.state === 1) {
       cssClass = 'cell burning';
     }
+  
+    if(props.state === 2) {
+      cssClass = 'cell charred';
+    }
+  
+    if(props.state === 3) {
+      cssClass = 'cell gone';
+    }
+  
     return(
       <div className={cssClass} onClick={ () => props.handleClick(props.id) }></div>
     )
