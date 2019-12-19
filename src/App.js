@@ -54,6 +54,22 @@ class App extends Component {
     if( count === 1 || count === 9 || count === 15 || count === 16 ) {
       this.kick(audio);
     }
+    
+    if( count === 3 || count === 7 || count === 11 || count === 15 ) {
+      this.note(audio, 440);
+    }
+    
+    if( count === 2 ) {
+      this.note(audio, 880);
+    }
+    
+    if( count === 13 ) {
+      this.note(audio, 659);
+    }
+    
+    if( count === 16 ) {
+      this.note(audio, 523);
+    }
   }
   
   buildGrid() {
@@ -181,7 +197,6 @@ class App extends Component {
 
   // **kick()** plays a kick drum sound for `1` second.
   kick(audio) {
-      console.log('test');
       var duration = 2;
 
       // Create the basic note as a sine wave.  A sine wave produces a
