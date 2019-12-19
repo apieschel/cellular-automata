@@ -122,7 +122,7 @@ class App extends Component {
             let rand = Math.random();
 
             if( rand > 0.5 ) {
-              grid[i].push({ key: i.toString() + '-' + j.toString(), state: 1 });
+              grid[i].push({ key: i.toString() + '-' + j.toString(), state: this.state++ });
             } else {
               grid[i].push( self );
             }
@@ -300,6 +300,7 @@ const Cell = function(props) {
     if(props.state) {
       cssClass = 'cell burning';
     }
+  
     return(
       <div className={cssClass} onClick={ () => props.handleClick(props.id) }></div>
     )
