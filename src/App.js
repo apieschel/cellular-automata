@@ -62,19 +62,19 @@ class App extends Component {
       }
 
       if( count === 3 || count === 4 || count === 5 || count === 7 || count === 11 || count === 15 ) {
-        this.note(audio, 440);
+        this.note(audio, 261.63);
       }
 
-      if( count === 2 ) {
-        this.note(audio, 880);
+      if( count === 4 ) {
+        this.note(audio, 587.330);
       }
 
-      if( count === 13 ) {
-        this.note(audio, 659);
+      if( count === 6 ) {
+        this.note(audio, 800);
       }
 
-      if( count === 16 ) {
-        this.note(audio, 523);
+      if( count === 3 ) {
+        this.note(audio, 659.255);
       }
     }
   }
