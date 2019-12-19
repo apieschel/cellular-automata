@@ -2,6 +2,10 @@ body {
   background: burlywood;
 }
 
+h1 {
+  text-align: center;
+}
+
 .container {
   position: absolute;
   top: 50%;

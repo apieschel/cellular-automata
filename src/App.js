@@ -85,7 +85,6 @@ class App extends Component {
     }
     
     this.setState({ cells: grid });
-    console.log(grid);
   }
   
   updateGrid() {
@@ -115,17 +114,16 @@ class App extends Component {
           }
 
           let self = cells[i][j];
-          console.log(self.state);
 
           if( self.state ) {
             let newState = self.state;
             let rand = Math.random();
 
-            if( rand > 0.5 ) {
-              if(self.state < 3) {
+            if( self.state < 3 ) {
+              if( rand > 0.5 ) {
                 newState++;
-                done = false;
               }
+              done = false;
             }
             
             grid[i].push({ key: i.toString() + '-' + j.toString(), state: newState });
