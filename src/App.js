@@ -41,7 +41,7 @@ class App extends Component {
   }
   
   componentDidMount() {
-    const intervalId = setInterval(this.updateGrid, 120);
+    const intervalId = setInterval(this.updateGrid, 140);
     
     // store intervalId in the state so it can be accessed later:
     this.setState({ intervalId: intervalId });
@@ -61,9 +61,14 @@ class App extends Component {
         this.kick(audio);
       }
 
-      if( count === 1 || count === 8 || count === 17 || count === 24 ) {
+      if( count === 1 || count === 8 ) {
         this.note(audio, 440);
         this.note(audio, 220);
+      }
+      
+      if( count === 17 || count === 24 ) {
+        this.note(audio, 174.614);
+        this.note(audio, 349.228);
       }
       
       if( count === 3 || count === 10 || count === 19 || count === 26 ) {
@@ -138,7 +143,7 @@ class App extends Component {
             
             grid[i].push({ key: i.toString() + '-' + j.toString(), state: newState });
             
-          } else if( left || right || up || down ) {
+          } else if( left === 1 || right === 1 || up === 1 || down === 1 ) {
             let rand = Math.random();
 
             if( rand > 0.5 ) {
