@@ -30,6 +30,12 @@ class App extends Component {
     this.handleClick = this.handleClick.bind(this);
     this.updateGrid = this.updateGrid.bind(this);
     this.playSound = this.playSound.bind(this);
+    this.note = this.note.bind(this);
+    this.kick = this.kick.bind(this);
+    this.createSineWave = this.createSineWave.bind(this);
+    this.createAmplifier = this.createAmplifier.bind(this);
+    this.rampDown = this.rampDown.bind(this);
+    this.chain = this.chain.bind(this);
   }
   
   componentDidMount() {
@@ -42,63 +48,12 @@ class App extends Component {
   }
   
   playSound() {
-    let instrument = SNARESIDE;
-    let quiet = true;
-    
-    console.log(instrument);
+    var audio = new AudioContext();
     let count = this.state.count;
     
     if( count === 1 || count === 9 || count === 15 || count === 16 ) {
-      quiet = false;
-      instrument = KICK;
+      this.kick(audio);
     }
-    
-    if( count === 12 ) {
-      instrument = HIGHHAT;
-    }
-    
-    if( count === 5 || count === 13 ) {
-      quiet = false;
-      instrument = SNARE;  
-    }
-    
-    if( count === 10 ) {
-      instrument = CONGA;
-    }
-    
-    if( count === 14) {
-       instrument = CONGAHIGH;
-    }
-    
-    if( count === 8 ) {
-      instrument = OPENHAT;
-    }
-    
-    let clone = instrument.cloneNode(true);
-      
-    const request = new XMLHttpRequest();
-    request.open('GET', instrument.src, true);
-    request.responseType = 'arraybuffer';
-    request.onload = function() {
-      AC.decodeAudioData(request.response, function(buffer) {
-        const gain = AC.createGain();
-        const playSound = AC.createBufferSource();
-        playSound.buffer = buffer;
-        playSound.connect(gain);
-        gain.connect(NODE);
-        gain.connect(AC.destination);
-        
-        if( quiet ) {
-          gain.gain.setValueAtTime(0.2, AC.currentTime);  
-        }
-        
-        playSound.start(0);
-
-        clone.remove();
-      });     
-    }
-      
-      request.send();
   }
   
   buildGrid() {
@@ -189,6 +144,121 @@ class App extends Component {
       },
     );
   }
+  
+  /**
+   *** These are Mary Rose Cook's functions, used for creating the sounds: https://github.com/maryrosecook/drum-machine/blob/master/drum-machine.js
+  **/
+  
+  // **note()** plays a note with a pitch of `frequency` for `1` second.
+  note(audio, frequency) {
+      var duration = 1;
+
+      // Create the basic note as a sine wave.  A sine wave produces a
+      // pure tone.  Set it to play for `duration` seconds.
+      var sineWave = this.createSineWave(audio, duration);
+
+      // Set the note's frequency to `frequency`.  A greater frequency
+      // produces a higher note.
+      sineWave.frequency.value = frequency;
+
+      // Web audio works by connecting nodes together in chains.  The
+      // output of one node becomes the input to the next.  In this way,
+      // sound is created and modified.
+      this.chain([
+
+        // `sineWave` outputs a pure tone.
+        sineWave,
+
+        // An amplifier reduces the volume of the tone from 20% to 0
+        // over the duration of the tone.  This produces an echoey
+        // effect.
+        this.createAmplifier(audio, 0.2, duration),
+
+        // The amplified output is sent to the browser to be played
+        // aloud.
+        audio.destination]);
+  };
+
+  // **kick()** plays a kick drum sound for `1` second.
+  kick(audio) {
+      console.log('test');
+      var duration = 2;
+
+      // Create the basic note as a sine wave.  A sine wave produces a
+      // pure tone.  Set it to play for `duration` seconds.
+      var sineWave = this.createSineWave(audio, duration);
+
+      // Set the initial frequency of the drum at a low `160`.  Reduce
+      // it to 0 over the duration of the sound.  This produces that
+      // BBBBBBBoooooo..... drop effect.
+      this.rampDown(audio, sineWave.frequency, 160, duration);
+
+      // Web audio works by connecting nodes together in chains.  The
+      // output of one node becomes the input to the next.  In this way,
+      // sound is created and modified.
+      this.chain([
+
+        // `sineWave` outputs a pure tone.
+        sineWave,
+
+        // An amplifier reduces the volume of the tone from 40% to 0
+        // over the duration of the tone.  This produces an echoey
+        // effect.
+        this.createAmplifier(audio, 0.4, duration),
+
+        // The amplified output is sent to the browser to be played
+        // aloud.
+        audio.destination]);
+  };
+
+  // **createSineWave()** returns a sound node that plays a sine wave
+  // for `duration` seconds.
+  createSineWave(audio, duration) {
+
+    // Create an oscillating sound wave.
+    var oscillator = audio.createOscillator();
+
+    // Make the oscillator a sine wave.  Different types of wave produce
+    // different characters of sound.  A sine wave produces a pure tone.
+    oscillator.type = "sine";
+
+    // Start the sine wave playing right now.
+    oscillator.start(audio.currentTime);
+
+    // Tell the sine wave to stop playing after `duration` seconds have
+    // passed.
+    oscillator.stop(audio.currentTime + duration);
+
+    // Return the sine wave.
+    return oscillator;
+  };
+
+  // **rampDown()** takes `value`, sets it to `startValue` and reduces
+  // it to almost `0` in `duration` seconds.  `value` might be the
+  // volume or frequency of a sound.
+  rampDown(audio, value, startValue, duration) {
+    value.setValueAtTime(startValue, audio.currentTime);
+    value.exponentialRampToValueAtTime(0.01, audio.currentTime + duration);
+  };
+
+  // **createAmplifier()** returns a sound node that controls the volume
+  // of the sound entering it.  The volume is started at `startValue`
+  // and ramped down in `duration` seconds to almost `0`.
+  createAmplifier(audio, startValue, duration) {
+    var amplifier = audio.createGain();
+    this.rampDown(audio, amplifier.gain, startValue, duration);
+    return amplifier;
+  };
+  
+  // **chain()** connects an array of `soundNodes` into a chain.  If
+  // there are three nodes in `soundNodes`, the output of the first will
+  // be the input to the second, and the output of the second will be
+  // the input to the third.
+  chain(soundNodes) {
+    for (var i = 0; i < soundNodes.length - 1; i++) {
+      soundNodes[i].connect(soundNodes[i + 1]);
+    }
+  };
   
   render() {
     return (
