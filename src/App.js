@@ -57,24 +57,26 @@ class App extends Component {
       let audio = new AudioContext();
       let count = this.state.count;
 
-      if( count === 1 || count === 5 || count === 9 || count === 15 || count === 16 ) {
+      if( count === 1 || count === 5 || count === 9 || count === 13 ) {
         this.kick(audio);
       }
 
-      if( count === 3 || count === 4 || count === 5 || count === 7 || count === 11 || count === 15 ) {
-        this.note(audio, 261.63);
+      if( count === 1 || count === 8 ) {
+        this.note(audio, 440);
+        this.note(audio, 220);
+      }
+      
+      
+      if( count === 3 || count === 10 ) {
+        this.note(audio, 659.255);
       }
 
-      if( count === 4 ) {
+      if( count === 4 || count === 11 ) {
         this.note(audio, 587.330);
       }
 
-      if( count === 6 ) {
-        this.note(audio, 800);
-      }
-
-      if( count === 3 ) {
-        this.note(audio, 659.255);
+      if( count === 6 || count === 12 ) {
+        this.note(audio, 783.991);
       }
     }
   }
