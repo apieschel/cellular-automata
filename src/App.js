@@ -53,7 +53,7 @@ class App extends Component {
     var audio = new AudioContext();
     let count = this.state.count;
     
-    if( count === 1 || count === 9 || count === 15 || count === 16 ) {
+    if( count === 1 || count === 5 || count === 9 || count === 15 || count === 16 ) {
       this.kick(audio);
     }
     
@@ -80,7 +80,7 @@ class App extends Component {
     for(let i = 0; i < this.state.numberOfRows; i++) {
       grid.push([]);        
       for(let j = 0; j < this.state.cellsPerRow; j++) {
-        grid[i].push({ key: i.toString() + '-' + j.toString(), state: parseInt(0) });
+        grid[i].push({ key: i.toString() + '-' + j.toString(), state: 0 });
       }
     }
     
@@ -132,14 +132,14 @@ class App extends Component {
             let rand = Math.random();
 
             if( rand > 0.5 ) {
-              grid[i].push({ key: i.toString() + '-' + j.toString(), state: parseInt(1) });
+              grid[i].push({ key: i.toString() + '-' + j.toString(), state: 1 });
             } else {
               grid[i].push( self );
             }
             
             done = false;
           } else {
-            grid[i].push({ key: i.toString() + '-' + j.toString(), state: parseInt(0) });
+            grid[i].push({ key: i.toString() + '-' + j.toString(), state: 0 });
             done = false;
           }
         }
