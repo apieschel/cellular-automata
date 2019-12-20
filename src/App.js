@@ -25,7 +25,12 @@ if(AudioContext) {
 let cellsPerRow = 25;
 let numberOfRows = 25;
 
-if(window.innerWidth <= 800 && window.innerHeight <= 600) {
+if( window.innerWidth <= 600 ) {
+ cellsPerRow = 15;
+ numberOfRows = 24;
+}
+
+if( window.innerWidth <= 350 ) {
  cellsPerRow = 13;
  numberOfRows = 20;
 } 
@@ -76,7 +81,7 @@ class App extends Component {
   playSound() {
     if(audio) {
       let count = this.state.count;
-
+      
       if( count === 1 || count === 5 || count === 9 || count === 13 || count === 17 || count === 21 || count === 25 || count === 29 ) {
         this.kick(audio);
       }
@@ -195,6 +200,11 @@ class App extends Component {
   }
   
   handleClick(id) {
+    audio.resume().then(function()
+      {
+          console.log("context resumed");
+      });
+    
     this.setState({
         cells: this.state.cells.map((row) => {
            return row.map((cell) => {
