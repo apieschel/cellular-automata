@@ -86,7 +86,7 @@ class App extends Component {
         this.kick(audio);
       }
       
-      if( count === 5 || count === 15 || count === 21 || count === 21 ) {
+      if( count === 5 || count === 13 || count === 21 || count === 29 ) {
         this.snare(audio);
       }
 
@@ -416,7 +416,7 @@ class App extends Component {
   render() {
     return (
       <div className='container'>
-        <h1>Click or Tap on a Tree</h1>
+        <h1>click or tap on a tree</h1>
         <div className='grid'>
             <Grid rows={this.state.cells} handleClick={this.handleClick} />
         </div>
