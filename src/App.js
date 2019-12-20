@@ -59,9 +59,14 @@ class App extends Component {
     this.buildGrid();
   }
   
+  componentDidUpdate(){
+    if(this.state.done) {
+      clearInterval(this.state.intervalId)
+    }
+  }
+  
   playSound() {
       let count = this.state.count;
-      console.log(count);
 
       if( count === 1 || count === 5 || count === 9 || count === 13 || count === 17 || count === 21 || count === 25 || count === 29 ) {
         this.kick(audio);
@@ -112,13 +117,14 @@ class App extends Component {
     let cells = this.state.cells;
     let count = this.state.count;
     let newState;
-    let done;
+    let done = true;
+    
+    console.log('updating');
     
     if( this.state.initialized && !this.state.done ) {
       this.playSound(); 
       
       for(let i = 0; i < this.state.numberOfRows; i++) {
-        done = true;
         grid.push([]);        
         
         for(let j = 0; j < this.state.cellsPerRow; j++) {
@@ -147,6 +153,10 @@ class App extends Component {
               }
             }
             
+            if( newState === 2 ) {
+              done = false;
+            }
+            
             grid[i].push({ key: i.toString() + '-' + j.toString(), state: newState });
             
           } else if( left === 1 || right === 1 || up === 1 || down === 1 ) {
@@ -154,6 +164,7 @@ class App extends Component {
 
             if( rand > 0.5 ) {
               newState = 1;
+              done = false;
               grid[i].push({ key: i.toString() + '-' + j.toString(), state: newState });
             } else {
               grid[i].push( self );
@@ -169,10 +180,6 @@ class App extends Component {
         count = 1;
       } else {
         count++;  
-      }
-      
-      if( newState === 1 || newState === 2 ) {
-        done = false;
       }
       
       this.setState({ cells: grid, count: count, duration: this.state.duration + 1, done: done });
