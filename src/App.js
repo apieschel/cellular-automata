@@ -13,12 +13,18 @@ const AC = new AudioContext();
 const NODE = AC.createGain();
 */
 
+
+const AudioContext = window.AudioContext // Default
+|| false; 
+    
+
 class App extends Component {
   constructor() {
     super();
     
     this.state = {
       done: false,
+      duration: 0,
       initialized: false,
       count: 1,
       cells: [],
@@ -50,9 +56,6 @@ class App extends Component {
   }
   
   playSound() {
-    let AudioContext = window.AudioContext // Default
-    || false; 
-    
     if(AudioContext) {
       let audio = new AudioContext();
       let count = this.state.count;
@@ -107,7 +110,7 @@ class App extends Component {
     let cells = this.state.cells;
     let count = this.state.count;
     
-    if( this.state.initialized ) {
+    if( this.state.initialized && this.state.duration < 80) {
       this.playSound(); 
       
       for(let i = 0; i < this.state.numberOfRows; i++) {
@@ -161,7 +164,7 @@ class App extends Component {
         count++;  
       }
       
-      this.setState({ cells: grid, count: count });
+      this.setState({ cells: grid, count: count, duration: this.state.duration + 1 });
     }
   }
   
