@@ -85,6 +85,10 @@ class App extends Component {
       if( count === 1 || count === 5 || count === 9 || count === 13 || count === 17 || count === 21 || count === 25 || count === 29 ) {
         this.kick(audio);
       }
+      
+      if( count === 5 || count === 15 || count === 21 || count === 21 ) {
+        this.snare(audio);
+      }
 
       if( count === 1 || count === 8 ) {
         this.note(audio, 220);
@@ -250,7 +254,7 @@ class App extends Component {
   
   // **note()** plays a note with a pitch of `frequency` for `1` second.
   note(audio, frequency) {
-      var duration = 0.75;
+      var duration = 0.7;
 
       // Create the basic note as a sine wave.  A sine wave produces a
       // pure tone.  Set it to play for `duration` seconds.
@@ -303,6 +307,37 @@ class App extends Component {
         // over the duration of the tone.  This produces an echoey
         // effect.
         this.createAmplifier(audio, 0.4, duration),
+
+        // The amplified output is sent to the browser to be played
+        // aloud.
+        audio.destination]);
+  };
+  
+  // **kick()** plays a kick drum sound for `1` second.
+  snare(audio) {
+      var duration = 0.3;
+
+      // Create the basic note as a sine wave.  A sine wave produces a
+      // pure tone.  Set it to play for `duration` seconds.
+      var sawtoothWave = this.createSawtoothWave(audio, duration);
+
+      // Set the initial frequency of the drum at a low `160`.  Reduce
+      // it to 0 over the duration of the sound.  This produces that
+      // BBBBBBBoooooo..... drop effect.
+      this.rampDown(audio, sawtoothWave.frequency, 600, duration);
+
+      // Web audio works by connecting nodes together in chains.  The
+      // output of one node becomes the input to the next.  In this way,
+      // sound is created and modified.
+      this.chain([
+
+        // `sineWave` outputs a pure tone.
+        sawtoothWave,
+
+        // An amplifier reduces the volume of the tone from 40% to 0
+        // over the duration of the tone.  This produces an echoey
+        // effect.
+        this.createAmplifier(audio, 0.2, duration),
 
         // The amplified output is sent to the browser to be played
         // aloud.
@@ -381,6 +416,7 @@ class App extends Component {
   render() {
     return (
       <div className='container'>
+        <h1>Click or Tap on a Tree</h1>
         <div className='grid'>
             <Grid rows={this.state.cells} handleClick={this.handleClick} />
         </div>

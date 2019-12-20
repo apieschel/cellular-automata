@@ -3,6 +3,9 @@ body {
 }
 
 h1 {
+  color: darkgreen;
+  font-family: Roboto;
+  font-size: 24px;
   text-align: center;
 }
 
