@@ -50,6 +50,7 @@ class App extends Component {
     this.handleClick = this.handleClick.bind(this);
     this.updateGrid = this.updateGrid.bind(this);
     this.playSound = this.playSound.bind(this);
+    this.note = this.note.bind(this);
     this.kick = this.kick.bind(this);
     this.createSineWave = this.createSineWave.bind(this);
     this.createAmplifier = this.createAmplifier.bind(this);
