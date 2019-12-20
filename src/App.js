@@ -13,7 +13,7 @@ const AC = new AudioContext();
 const NODE = AC.createGain();
 */
 
-let audio;
+let audio = false;
 const AudioContext = window.AudioContext // Default
 || false;
 
@@ -21,6 +21,8 @@ if(AudioContext) {
   audio = new AudioContext();
 }
     
+let cellsPerRow = 25;
+let numberOfRows = 25;
 
 class App extends Component {
   constructor() {
@@ -32,9 +34,9 @@ class App extends Component {
       initialized: false,
       count: 1,
       cells: [],
-      cellsPerRow: 25,
+      cellsPerRow: cellsPerRow,
       intervalId: 0,
-      numberOfRows: 25,
+      numberOfRows: numberOfRows,
     }
     
     this.buildGrid = this.buildGrid.bind(this);
@@ -66,6 +68,7 @@ class App extends Component {
   }
   
   playSound() {
+    if(audio) {
       let count = this.state.count;
 
       if( count === 1 || count === 5 || count === 9 || count === 13 || count === 17 || count === 21 || count === 25 || count === 29 ) {
@@ -97,6 +100,7 @@ class App extends Component {
       if( count === 22 || count === 28 ) {
         this.note(audio, 880);
       }
+    }
   }
   
   buildGrid() {
@@ -118,8 +122,6 @@ class App extends Component {
     let count = this.state.count;
     let newState;
     let done = true;
-    
-    console.log('updating');
     
     if( this.state.initialized && !this.state.done ) {
       this.playSound(); 
