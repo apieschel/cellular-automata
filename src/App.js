@@ -256,11 +256,11 @@ class App extends Component {
 
       // Create the basic note as a sine wave.  A sine wave produces a
       // pure tone.  Set it to play for `duration` seconds.
-      var sineWave = this.createSineWave(audio, duration);
+      var sawtoothWave = this.createSawtoothWave(audio, duration);
 
       // Set the note's frequency to `frequency`.  A greater frequency
       // produces a higher note.
-      sineWave.frequency.value = frequency;
+      sawtoothWave.frequency.value = frequency;
 
       // Web audio works by connecting nodes together in chains.  The
       // output of one node becomes the input to the next.  In this way,
@@ -268,7 +268,7 @@ class App extends Component {
       this.chain([
 
         // `sineWave` outputs a pure tone.
-        sineWave,
+        sawtoothWave,
 
         // An amplifier reduces the volume of the tone from 20% to 0
         // over the duration of the tone.  This produces an echoey
@@ -320,7 +320,27 @@ class App extends Component {
 
     // Make the oscillator a sine wave.  Different types of wave produce
     // different characters of sound.  A sine wave produces a pure tone.
-    oscillator.type = "sine";
+    oscillator.type = "square";
+
+    // Start the sine wave playing right now.
+    oscillator.start(audio.currentTime);
+
+    // Tell the sine wave to stop playing after `duration` seconds have
+    // passed.
+    oscillator.stop(audio.currentTime + duration);
+
+    // Return the sine wave.
+    return oscillator;
+  };
+  
+  createSawtoothWave(audio, duration) {
+
+    // Create an oscillating sound wave.
+    var oscillator = audio.createOscillator();
+
+    // Make the oscillator a sine wave.  Different types of wave produce
+    // different characters of sound.  A sine wave produces a pure tone.
+    oscillator.type = "sawtooth";
 
     // Start the sine wave playing right now.
     oscillator.start(audio.currentTime);
