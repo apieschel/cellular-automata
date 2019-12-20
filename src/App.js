@@ -74,7 +74,8 @@ class App extends Component {
   
   componentDidUpdate(){
     if(this.state.done) {
-      clearInterval(this.state.intervalId)
+      clearInterval(this.state.intervalId);
+      this.setState({ done: false, initialized: false });
     }
   }
   
@@ -200,26 +201,28 @@ class App extends Component {
   }
   
   handleClick(id) {
-    audio.resume().then(function()
-      {
-          console.log("context resumed");
-      });
-    
-    this.setState({
-        cells: this.state.cells.map((row) => {
-           return row.map((cell) => {
-             if(cell.key === id) {
-               return Object.assign({}, cell, {
-                 state: 1,
-               });
-             } else {
-               return cell;
-             }
-           })
-        }),
-        initialized: true,
-      },
-    );
+    if( !this.state.initialized ) {
+      audio.resume().then(function()
+        {
+            console.log("context resumed");
+        });
+
+      this.setState({
+          cells: this.state.cells.map((row) => {
+             return row.map((cell) => {
+               if(cell.key === id) {
+                 return Object.assign({}, cell, {
+                   state: 1,
+                 });
+               } else {
+                 return cell;
+               }
+             })
+          }),
+          initialized: true,
+        },
+      );
+    }
   }
   
   /**
