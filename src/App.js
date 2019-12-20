@@ -87,13 +87,11 @@ class App extends Component {
       }
 
       if( count === 1 || count === 8 ) {
-        this.note(audio, 440);
         this.note(audio, 220);
       }
       
       if( count === 17 || count === 24 ) {
         this.note(audio, 174.614);
-        this.note(audio, 349.228);
       }
       
       if( count === 3 || count === 10 || count === 19 || count === 26 ) {
@@ -252,7 +250,7 @@ class App extends Component {
   
   // **note()** plays a note with a pitch of `frequency` for `1` second.
   note(audio, frequency) {
-      var duration = 1;
+      var duration = 0.75;
 
       // Create the basic note as a sine wave.  A sine wave produces a
       // pure tone.  Set it to play for `duration` seconds.
@@ -273,7 +271,7 @@ class App extends Component {
         // An amplifier reduces the volume of the tone from 20% to 0
         // over the duration of the tone.  This produces an echoey
         // effect.
-        this.createAmplifier(audio, 0.2, duration),
+        this.createAmplifier(audio, 0.1, duration),
 
         // The amplified output is sent to the browser to be played
         // aloud.
@@ -282,7 +280,7 @@ class App extends Component {
 
   // **kick()** plays a kick drum sound for `1` second.
   kick(audio) {
-      var duration = 2;
+      var duration = 1;
 
       // Create the basic note as a sine wave.  A sine wave produces a
       // pure tone.  Set it to play for `duration` seconds.
@@ -291,7 +289,7 @@ class App extends Component {
       // Set the initial frequency of the drum at a low `160`.  Reduce
       // it to 0 over the duration of the sound.  This produces that
       // BBBBBBBoooooo..... drop effect.
-      this.rampDown(audio, sineWave.frequency, 160, duration);
+      this.rampDown(audio, sineWave.frequency, 180, duration);
 
       // Web audio works by connecting nodes together in chains.  The
       // output of one node becomes the input to the next.  In this way,
@@ -320,7 +318,7 @@ class App extends Component {
 
     // Make the oscillator a sine wave.  Different types of wave produce
     // different characters of sound.  A sine wave produces a pure tone.
-    oscillator.type = "square";
+    oscillator.type = "sine";
 
     // Start the sine wave playing right now.
     oscillator.start(audio.currentTime);
@@ -334,13 +332,13 @@ class App extends Component {
   };
   
   createSawtoothWave(audio, duration) {
-
     // Create an oscillating sound wave.
     var oscillator = audio.createOscillator();
 
     // Make the oscillator a sine wave.  Different types of wave produce
     // different characters of sound.  A sine wave produces a pure tone.
     oscillator.type = "sawtooth";
+    
 
     // Start the sine wave playing right now.
     oscillator.start(audio.currentTime);
