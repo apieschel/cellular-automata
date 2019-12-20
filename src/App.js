@@ -13,9 +13,13 @@ const AC = new AudioContext();
 const NODE = AC.createGain();
 */
 
-
+let audio;
 const AudioContext = window.AudioContext // Default
-|| false; 
+|| false;
+
+if(AudioContext) {
+  audio = new AudioContext();
+}
     
 
 class App extends Component {
@@ -56,9 +60,8 @@ class App extends Component {
   }
   
   playSound() {
-    if(AudioContext) {
-      let audio = new AudioContext();
       let count = this.state.count;
+      console.log(count);
 
       if( count === 1 || count === 5 || count === 9 || count === 13 || count === 17 || count === 21 || count === 25 || count === 29 ) {
         this.kick(audio);
@@ -89,7 +92,6 @@ class App extends Component {
       if( count === 22 || count === 28 ) {
         this.note(audio, 880);
       }
-    }
   }
   
   buildGrid() {
@@ -109,12 +111,16 @@ class App extends Component {
     let grid = [];
     let cells = this.state.cells;
     let count = this.state.count;
+    let newState;
+    let done;
     
-    if( this.state.initialized && this.state.duration < 80) {
+    if( this.state.initialized && !this.state.done ) {
       this.playSound(); 
       
       for(let i = 0; i < this.state.numberOfRows; i++) {
+        done = true;
         grid.push([]);        
+        
         for(let j = 0; j < this.state.cellsPerRow; j++) {
           let left = cells[i][j - 1] ? cells[i][j - 1].state : 0;
           let right = cells[i][j + 1] ? cells[i][j + 1].state : 0;
@@ -130,9 +136,9 @@ class App extends Component {
           }
 
           let self = cells[i][j];
+          newState = self.state;
 
           if( self.state ) {
-            let newState = self.state;
             let rand = Math.random();
 
             if( self.state < 3 ) {
@@ -147,7 +153,8 @@ class App extends Component {
             let rand = Math.random();
 
             if( rand > 0.5 ) {
-              grid[i].push({ key: i.toString() + '-' + j.toString(), state: 1 });
+              newState = 1;
+              grid[i].push({ key: i.toString() + '-' + j.toString(), state: newState });
             } else {
               grid[i].push( self );
             }
@@ -164,7 +171,11 @@ class App extends Component {
         count++;  
       }
       
-      this.setState({ cells: grid, count: count, duration: this.state.duration + 1 });
+      if( newState === 1 || newState === 2 ) {
+        done = false;
+      }
+      
+      this.setState({ cells: grid, count: count, duration: this.state.duration + 1, done: done });
     }
   }
   
