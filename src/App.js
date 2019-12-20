@@ -72,10 +72,9 @@ class App extends Component {
     this.buildGrid();
   }
   
-  componentDidUpdate(){
+  componentDidRender(){
     if(this.state.done) {
       clearInterval(this.state.intervalId);
-      this.setState({ done: false, initialized: false });
     }
   }
   
@@ -201,6 +200,28 @@ class App extends Component {
   }
   
   handleClick(id) {
+    
+    if( this.state.done ) {
+       this.setState({
+          cells: this.state.cells.map((row) => {
+             return row.map((cell) => {
+               if( cell.key === id && !cell.state ) {
+                 return Object.assign({}, cell, {
+                   state: 1,
+                 });
+               } else {
+                 return cell;
+               }
+             })
+          }),
+          done: false,
+        },
+      );
+      
+      const intervalId = setInterval(this.updateGrid, 140);
+      this.setState({ intervalId: intervalId });
+    }
+    
     if( !this.state.initialized ) {
       audio.resume().then(function()
         {
