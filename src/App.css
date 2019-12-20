@@ -38,10 +38,3 @@ h1 {
 .gone {
   background: transparent;
 }
-
-@media screen and (max-width: 600px) {
-  .cell {
-    height: 11px; 
-    width: 11px;
-  }
-}
