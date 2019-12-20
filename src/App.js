@@ -134,8 +134,6 @@ class App extends Component {
     let newState;
     let done = true;
     
-    console.log('tick');
-    
     if( this.state.initialized && !this.state.done ) {
       this.playSound(); 
       
